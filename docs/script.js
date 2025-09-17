@@ -1,5 +1,5 @@
 // Make GET request to Games API
-fetch('http://localhost:3000/api/games')
+fetch('https://vj.interfaces.jima.com.ar/api')
   .then(response => {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
