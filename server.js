@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const fetch = require('node-fetch');
 const fs = require('fs');
 
 const app = express();
@@ -9,7 +8,7 @@ const PORT = 3000;
 // Enable CORS for all routes
 app.use(cors());
 
-app.get('/api/games', async (req, res) => {
+app.get('/api', async (req, res) => {
   try {
     // read games.json
     const data = await fs.promises.readFile('games.json', 'utf8');
@@ -20,5 +19,5 @@ app.get('/api/games', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
