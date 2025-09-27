@@ -1,8 +1,8 @@
-# API de Videojuegos - Interfaces 2025
+# API de Videojuegos - Interfaces 2025, TUDAI, UNICEN
 
 ## Descripción
 
-Esta API proporciona información sobre videojuegos populares para ser utilizada en el contexto de la materia **Interfaces de Usuario e Interacción 2025**. La API contiene datos de juegos incluyendo información básica, plataformas, géneros y calificaciones.
+API propuesta por la cátedra para tomar datos y utilizarlos en el sitio de juegos. Proporciona información básica, plataformas, géneros y calificaciones, imagenes, etc.
 
 ## Endpoint
 
@@ -28,6 +28,7 @@ Cada videojuego en la respuesta tiene la siguiente estructura:
   "background_image": "https://media.rawg.io/media/games/20a/20aa03a10cda45239fe22d035c0ebe64.jpg",
   "background_image_low_res": "https://media.rawg.io/media/crop/600/400/games/20a/20aa03a10cda45239fe22d035c0ebe64.jpg",
   "rating": 4.47,
+  "description": "Rockstar Games went bigger, since their previous installment of the series. You get the complicated and realistic world-building from Liberty City of GTA4 in the setting of lively and diverse Los Santos, from an old fan favorite GTA San Andreas. 561 different vehicles (including every transport you can operate) and the amount is rising with every update...",
   "platforms": [
     {
       "id": 1,
@@ -61,6 +62,7 @@ Cada videojuego en la respuesta tiene la siguiente estructura:
 | `background_image` | string | URL de la imagen de fondo del juego (resolución original) |
 | `background_image_low_res` | string | URL de la imagen de fondo del juego (versión optimizada 600x400) |
 | `rating` | number | Calificación promedio del juego (escala 0-5) |
+| `description` | string | Descripción detallada del videojuego (texto limpio sin HTML) |
 | `platforms` | array | Lista de plataformas donde está disponible |
 | `genres` | array | Lista de géneros del videojuego |
 
@@ -131,16 +133,6 @@ async function obtenerJuegos() {
 - La API no requiere autenticación
 - CORS está habilitado para todas las rutas
 - La respuesta incluye aproximadamente 80 videojuegos populares
-
-## Uso en Interfaces de Usuario
-
-Esta API es ideal para:
-
-- Crear catálogos de videojuegos
-- Implementar filtros por género o plataforma
-- Mostrar tarjetas de juegos con imágenes
-- Crear sistemas de recomendación basados en rating
-- Desarrollar interfaces de búsqueda y navegación
 
 ### Optimización de Imágenes
 

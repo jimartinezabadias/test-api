@@ -11,7 +11,7 @@ app.use(cors());
 app.get('/api', async (req, res) => {
   try {
     // read games.json
-    const data = await fs.promises.readFile('games_v2.json', 'utf8');
+    const data = await fs.promises.readFile('games_v3.json', 'utf8');
     res.json(JSON.parse(data));
   } catch (error) {
     res.status(500).json({ error: error.message });
