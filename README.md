@@ -26,6 +26,7 @@ Cada videojuego en la respuesta tiene la siguiente estructura:
   "name": "Grand Theft Auto V",
   "released": "2013-09-17",
   "background_image": "https://media.rawg.io/media/games/20a/20aa03a10cda45239fe22d035c0ebe64.jpg",
+  "background_image_low_res": "https://media.rawg.io/media/crop/600/400/games/20a/20aa03a10cda45239fe22d035c0ebe64.jpg",
   "rating": 4.47,
   "platforms": [
     {
@@ -57,7 +58,8 @@ Cada videojuego en la respuesta tiene la siguiente estructura:
 | `id` | number | Identificador único del videojuego |
 | `name` | string | Nombre del videojuego |
 | `released` | string | Fecha de lanzamiento (formato YYYY-MM-DD) |
-| `background_image` | string | URL de la imagen de fondo del juego |
+| `background_image` | string | URL de la imagen de fondo del juego (resolución original) |
+| `background_image_low_res` | string | URL de la imagen de fondo del juego (versión optimizada 600x400) |
 | `rating` | number | Calificación promedio del juego (escala 0-5) |
 | `platforms` | array | Lista de plataformas donde está disponible |
 | `genres` | array | Lista de géneros del videojuego |
@@ -139,6 +141,13 @@ Esta API es ideal para:
 - Mostrar tarjetas de juegos con imágenes
 - Crear sistemas de recomendación basados en rating
 - Desarrollar interfaces de búsqueda y navegación
+
+### Optimización de Imágenes
+
+La API incluye dos versiones de cada imagen de fondo:
+
+- **`background_image`**: Imagen en resolución original para uso en vistas detalladas
+- **`background_image_low_res`**: Imagen optimizada (600x400) para uso en listas y vistas previas
 
 ## Contacto
 
