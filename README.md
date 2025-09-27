@@ -4,7 +4,7 @@
 
 API propuesta por la cátedra para tomar datos y utilizarlos en el sitio de juegos. Proporciona información básica, plataformas, géneros y calificaciones, imagenes, etc.
 
-## Endpoint
+## Endpoints
 
 ### GET /api
 
@@ -12,13 +12,63 @@ API propuesta por la cátedra para tomar datos y utilizarlos en el sitio de jueg
 
 **Método:** GET
 
-**Descripción:** Obtiene una lista completa de videojuegos con sus detalles.
+**Descripción:** Obtiene una lista completa de videojuegos con sus detalles básicos (versión original).
 
-**Respuesta:** Array de objetos JSON con información de videojuegos.
+**Respuesta:** Array de objetos JSON con información básica de videojuegos.
+
+### GET /api/v2
+
+**URL Base:** `https://vj.interfaces.jima.com.ar/api/v2`
+
+**Método:** GET
+
+**Descripción:** Obtiene una lista completa de videojuegos con detalles extendidos, incluyendo imágenes optimizadas y descripciones detalladas.
+
+**Nuevas características en v2:**
+- `background_image_low_res`: Imagen optimizada (600x400) para mejor rendimiento
+- `description`: Descripción detallada del videojuego (texto limpio sin HTML)
+
+**Respuesta:** Array de objetos JSON con información extendida de videojuegos.
 
 ## Estructura de Datos
 
-Cada videojuego en la respuesta tiene la siguiente estructura:
+### API v1 (/api)
+
+Cada videojuego en la respuesta tiene la siguiente estructura básica:
+
+```json
+{
+  "id": 3498,
+  "name": "Grand Theft Auto V",
+  "released": "2013-09-17",
+  "background_image": "https://media.rawg.io/media/games/20a/20aa03a10cda45239fe22d035c0ebe64.jpg",
+  "rating": 4.47,
+  "platforms": [
+    {
+      "id": 1,
+      "name": "PC"
+    },
+    {
+      "id": 2,
+      "name": "PlayStation"
+    },
+    {
+      "id": 3,
+      "name": "Xbox"
+    }
+  ],
+  "genres": [
+    {
+      "id": 4,
+      "name": "Action"
+    }
+  ]
+}
+```
+
+### API v2 (/api/v2)
+
+Cada videojuego en la respuesta v2 incluye campos adicionales:
 
 ```json
 {
@@ -54,17 +104,17 @@ Cada videojuego en la respuesta tiene la siguiente estructura:
 
 ### Campos
 
-| Campo | Tipo | Descripción |
-|-------|------|-------------|
-| `id` | number | Identificador único del videojuego |
-| `name` | string | Nombre del videojuego |
-| `released` | string | Fecha de lanzamiento (formato YYYY-MM-DD) |
-| `background_image` | string | URL de la imagen de fondo del juego (resolución original) |
-| `background_image_low_res` | string | URL de la imagen de fondo del juego (versión optimizada 600x400) |
-| `rating` | number | Calificación promedio del juego (escala 0-5) |
-| `description` | string | Descripción detallada del videojuego (texto limpio sin HTML) |
-| `platforms` | array | Lista de plataformas donde está disponible |
-| `genres` | array | Lista de géneros del videojuego |
+| Campo | Tipo | Versión | Descripción |
+|-------|------|---------|-------------|
+| `id` | number | v1, v2 | Identificador único del videojuego |
+| `name` | string | v1, v2 | Nombre del videojuego |
+| `released` | string | v1, v2 | Fecha de lanzamiento (formato YYYY-MM-DD) |
+| `background_image` | string | v1, v2 | URL de la imagen de fondo del juego (resolución original) |
+| `rating` | number | v1, v2 | Calificación promedio del juego (escala 0-5) |
+| `platforms` | array | v1, v2 | Lista de plataformas donde está disponible |
+| `genres` | array | v1, v2 | Lista de géneros del videojuego |
+| `background_image_low_res` | string | v2 | URL de la imagen de fondo del juego (versión optimizada 600x400) |
+| `description` | string | v2 | Descripción detallada del videojuego (texto limpio sin HTML) |
 
 ### Estructura de Plataformas
 
@@ -86,7 +136,7 @@ Cada videojuego en la respuesta tiene la siguiente estructura:
 
 ## Ejemplo de Uso
 
-### JavaScript (Fetch API)
+### API v1 (/api) - JavaScript (Fetch API)
 
 ```javascript
 fetch('https://vj.interfaces.jima.com.ar/api')
@@ -103,22 +153,23 @@ fetch('https://vj.interfaces.jima.com.ar/api')
   });
 ```
 
-### JavaScript (Async/Await)
+### API v2 (/api/v2) - JavaScript (Fetch API)
 
 ```javascript
-async function obtenerJuegos() {
-  try {
-    const response = await fetch('https://vj.interfaces.jima.com.ar/api');
-    const games = await response.json();
-    
-    // Filtrar juegos con rating mayor a 4.0
-    const juegosDestacados = games.filter(game => game.rating > 4.0);
-    
-    return juegosDestacados;
-  } catch (error) {
-    console.error('Error:', error);
-  }
-}
+fetch('https://vj.interfaces.jima.com.ar/api/v2')
+  .then(response => response.json())
+  .then(games => {
+    console.log('Juegos disponibles:', games);
+    // Procesar la lista de juegos con campos adicionales
+    games.forEach(game => {
+      console.log(`${game.name} - Rating: ${game.rating}`);
+      console.log(`Descripción: ${game.description}`);
+      console.log(`Imagen optimizada: ${game.background_image_low_res}`);
+    });
+  })
+  .catch(error => {
+    console.error('Error al obtener los juegos:', error);
+  });
 ```
 
 ## Códigos de Estado HTTP
@@ -136,10 +187,16 @@ async function obtenerJuegos() {
 
 ### Optimización de Imágenes
 
-La API incluye dos versiones de cada imagen de fondo:
+#### API v1 (/api)
+- **`background_image`**: Imagen en resolución original para uso en vistas detalladas
+
+#### API v2 (/api/v2)
+La API v2 incluye dos versiones de cada imagen de fondo:
 
 - **`background_image`**: Imagen en resolución original para uso en vistas detalladas
 - **`background_image_low_res`**: Imagen optimizada (600x400) para uso en listas y vistas previas
+
+**Recomendación:** Usa `background_image_low_res` para listas y vistas previas, y `background_image` para vistas detalladas del juego, hero images, etc.
 
 ## Contacto
 
