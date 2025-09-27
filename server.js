@@ -18,6 +18,16 @@ app.get('/api', async (req, res) => {
   }
 });
 
+app.get('/api/v2', async (req, res) => {
+  try {
+    // read games.json
+    const data = await fs.promises.readFile('games_v2.1.json', 'utf8');
+    res.json(JSON.parse(data));
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
